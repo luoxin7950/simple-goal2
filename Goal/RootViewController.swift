@@ -9,11 +9,6 @@
 import UIKit
 
 class RootViewController: UITableViewController, UITextFieldDelegate {
-
-    // tmpchg
-    public enum MyError : Error {
-        case RuntimeError(String)
-    }
     
     private let cellTableIdentifier = "CellTableIdentifier"
     private var goalList: GoalList! // local copy
@@ -26,34 +21,34 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
     
     
     // dummy test data for now tmpchg
-    var dailyGoalsTest = [
-        Goal(goalName: "Drink Water", isCompleted: false, type: .Daily),
-        Goal(goalName: "Work Out", isCompleted: false, type: .Daily),
-        Goal(goalName: "Drink Apple Juice", isCompleted: true, type: .Daily),
-        Goal(goalName: "Learn iOS Programming", isCompleted: false, type: .Daily),
-        Goal(goalName: "Write iOS App", isCompleted: false, type: .Daily)
-    ]
-    
-    var weeklyGoalsTest = [
-        Goal(goalName: "Maintain House", isCompleted: false, type: .Weekly),
-        Goal(goalName: "Research Finance", isCompleted: false, type: .Weekly),
-        Goal(goalName: "Retrospect", isCompleted: false, type: .Weekly)
-    ]
-    
-    var monthlyGoalsTest = [
-        Goal(goalName: "Clean House", isCompleted: false, type: .Monthly),
-        Goal(goalName: "I don't now yet", isCompleted: false, type: .Monthly)
-    ]
-    
-    var yearlyGoalsTest = [
-        Goal(goalName: "Get Married", isCompleted: false, type: .Yearly),
-        Goal(goalName: "Buy a new car", isCompleted: false, type: .Yearly)
-    ]
-    
-    var onceGoalsTest = [
-        Goal(goalName: "Just need to do it once", isCompleted: false, type: .Once),
-        Goal(goalName: "File tax return", isCompleted: false, type: .Once)
-    ]
+//    var dailyGoalsTest = [
+//        Goal(goalName: "Drink Water", isCompleted: false, type: .Daily),
+//        Goal(goalName: "Work Out", isCompleted: false, type: .Daily),
+//        Goal(goalName: "Drink Apple Juice", isCompleted: true, type: .Daily),
+//        Goal(goalName: "Learn iOS Programming", isCompleted: false, type: .Daily),
+//        Goal(goalName: "Write iOS App", isCompleted: false, type: .Daily)
+//    ]
+//    
+//    var weeklyGoalsTest = [
+//        Goal(goalName: "Maintain House", isCompleted: false, type: .Weekly),
+//        Goal(goalName: "Research Finance", isCompleted: false, type: .Weekly),
+//        Goal(goalName: "Retrospect", isCompleted: false, type: .Weekly)
+//    ]
+//    
+//    var monthlyGoalsTest = [
+//        Goal(goalName: "Clean House", isCompleted: false, type: .Monthly),
+//        Goal(goalName: "I don't now yet", isCompleted: false, type: .Monthly)
+//    ]
+//    
+//    var yearlyGoalsTest = [
+//        Goal(goalName: "Get Married", isCompleted: false, type: .Yearly),
+//        Goal(goalName: "Buy a new car", isCompleted: false, type: .Yearly)
+//    ]
+//    
+//    var onceGoalsTest = [
+//        Goal(goalName: "Just need to do it once", isCompleted: false, type: .Once),
+//        Goal(goalName: "File tax return", isCompleted: false, type: .Once)
+//    ]
     
     // end of test data
     
@@ -68,7 +63,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         tableView.register(xib,
                            forCellReuseIdentifier: cellTableIdentifier)
         
-        
+        // font style
         let preferredTableViewFont =
             UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)
         cellPointSize = preferredTableViewFont.pointSize
@@ -123,7 +118,8 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
     }
     
     
-    func insertBlank(){
+    // always have a blank line so that insert sign will show up
+    private func insertBlank(){
         
         if(goalList.dailyGoals.count == 0)
         {
