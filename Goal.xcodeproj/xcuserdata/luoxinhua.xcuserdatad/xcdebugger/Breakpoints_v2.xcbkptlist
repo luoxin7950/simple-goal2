@@ -185,13 +185,13 @@
                   symbolName = "Goal.GoalList.removeGoal (goal : Goal.Goal) -&gt; ()"
                   moduleName = "Goal"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/LuoxinHua/Desktop/Goal/Goal/GoalList.swift"
-                  timestampString = "515220423.702422"
+                  urlString = "file:///Users/luoxinhua/Documents/simple-goal2/Goal/GoalList.swift"
+                  timestampString = "517035990.767686"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "246"
                   endingLineNumber = "246"
-                  offsetFromSymbolStart = "508">
+                  offsetFromSymbolStart = "631">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -200,13 +200,13 @@
                   symbolName = "Goal.GoalList.removeGoal (goal : Goal.Goal) -&gt; ()"
                   moduleName = "Goal"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/LuoxinHua/Desktop/Goal/Goal/GoalList.swift"
-                  timestampString = "515220423.703721"
+                  urlString = "file:///Users/luoxinhua/Documents/simple-goal2/Goal/GoalList.swift"
+                  timestampString = "517035990.773018"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "246"
                   endingLineNumber = "246"
-                  offsetFromSymbolStart = "516">
+                  offsetFromSymbolStart = "643">
                </Location>
             </Locations>
          </BreakpointContent>

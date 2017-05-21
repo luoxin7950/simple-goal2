@@ -11,12 +11,6 @@ import UIKit
 
 class GoalList {
     
-    // tmpchg
-    public enum MyError : Error {
-        case RuntimeError(String)
-    }
-    
-    
     // singleton
     static let goalList = GoalList()
 
