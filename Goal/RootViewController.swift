@@ -11,8 +11,10 @@ import UIKit
 class RootViewController: UITableViewController, UITextFieldDelegate {
     
     private let cellTableIdentifier = "CellTableIdentifier"
-    private var goalList: GoalList! // local copy
     private var cellPointSize: CGFloat!
+    
+    // instance of data model
+    private var goalList: GoalList! // local copy
     private var dailyGoals : [Goal]! // local copy
     private var weeklyGoals : [Goal]!
     private var monthlyGoals : [Goal]!
@@ -317,7 +319,8 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
                 print("commit...invalid section number")
             }
             // tmpchg
-            goalList.saveGoals()
+            //goalList.saveGoals()
+            
             tableView.beginUpdates()
             tableView.insertRows(at: [IndexPath(row:count-1, section:indexPath.section)],
                                  with:.automatic)
@@ -360,6 +363,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         let ip = self.tableView.indexPath(for:cell)!
         switch ip.section {
         case 0:
+            // tmpchg working here
             dailyGoals[ip.row].name = cell.goalTextField.text!
         case 1:
             weeklyGoals[ip.row].name = cell.goalTextField.text!
@@ -374,7 +378,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             break
         }
         //tmpchg
-        goalList.saveGoals()
+        //goalList.saveAllGoals()
     }
     
     //mark a complete
@@ -405,7 +409,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             // tell the table view it's done editing
             tableView.isEditing = false
             
-            self.goalList.saveGoals()
+            self.goalList.saveAllGoals()
         })
         
         let deleteAction = UITableViewRowAction(style: .default, title:"Delete")
@@ -457,7 +461,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             break
         }
         
-        goalList.saveGoals()
+        goalList.saveAllGoals()
     }
     
  

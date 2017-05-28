@@ -9,16 +9,19 @@
 import Foundation
 import UIKit
 
+// data model
 class GoalList {
     
     // singleton
     static let goalList = GoalList()
 
-    private let monthlyGoalUserKey = "monthlyGoalUserKey"
-    private let weeklyGoalUserKey = "weeklyGoalUserKey"
-    private let dailyGoalUserKey = "dailyGoalUserKey"
-    private let yearlyGoalUserKey = "yearlyGoalUserKey"
-    private let onceGoalUserKey = "onceGoalUserKey"
+    private var goalListDao : GoalListDao
+    
+    public let monthlyGoalUserKey = "monthlyGoalUserKey"
+    public let weeklyGoalUserKey = "weeklyGoalUserKey"
+    public let dailyGoalUserKey = "dailyGoalUserKey"
+    public let yearlyGoalUserKey = "yearlyGoalUserKey"
+    public let onceGoalUserKey = "onceGoalUserKey"
     
     // read only. call methods to change/set the list
     private(set) var dailyGoals : [Goal]
@@ -27,61 +30,71 @@ class GoalList {
     private(set) var yearlyGoals : [Goal]
     private(set) var onceGoals : [Goal]
 
-    static public func getGoalsFromUserDefault(userKey : String) -> [Goal]
-    {
-        let returnVal: [Goal]
-        let defaults = UserDefaults.standard
-        
-        let nullableStoredGoals = defaults.object(forKey: userKey) as? Data
-
-        if let storedGoals = nullableStoredGoals{
-            // there is some goals stored. now unarchive them
-            returnVal = NSKeyedUnarchiver.unarchiveObject(with: storedGoals) as! [Goal]
-        }
-        else{
-             //no goal is stored
-            returnVal = [Goal]()
-        }
-        
-        return returnVal
-    }
+// tmpchg create GoalListDao
+//    static public func getGoalsFromUserDefault(userKey : String) -> [Goal]
+//    {
+//        let returnVal: [Goal]
+//        let defaults = UserDefaults.standard
+//        
+//        let nullableStoredGoals = defaults.object(forKey: userKey) as? Data
+//
+//        if let storedGoals = nullableStoredGoals{
+//            // there is some goals stored. now unarchive them
+//            returnVal = NSKeyedUnarchiver.unarchiveObject(with: storedGoals) as! [Goal]
+//        }
+//        else{
+//             //no goal is stored
+//            returnVal = [Goal]()
+//        }
+//        
+//        return returnVal
+//    }
 
     init()
     {
         //tmpchg testing clear user defaults
         //defaults.removeObject(forKey: dailyGoalUserKey)
         
-        dailyGoals = GoalList.getGoalsFromUserDefault(userKey: dailyGoalUserKey)
-        weeklyGoals = GoalList.getGoalsFromUserDefault(userKey: weeklyGoalUserKey)
-        monthlyGoals = GoalList.getGoalsFromUserDefault(userKey: monthlyGoalUserKey)
-        yearlyGoals = GoalList.getGoalsFromUserDefault(userKey: yearlyGoalUserKey)
-        onceGoals = GoalList.getGoalsFromUserDefault(userKey: onceGoalUserKey)
+        goalListDao = GoalListDao()
+        
+        dailyGoals = goalListDao.getGoals(userKey: dailyGoalUserKey)
+        weeklyGoals = goalListDao.getGoals(userKey: weeklyGoalUserKey)
+        monthlyGoals = goalListDao.getGoals(userKey: monthlyGoalUserKey)
+        yearlyGoals = goalListDao.getGoals(userKey: yearlyGoalUserKey)
+        onceGoals = goalListDao.getGoals(userKey: onceGoalUserKey)
+        
+//        dailyGoals = GoalList.getGoalsFromUserDefault(userKey: dailyGoalUserKey)
+//        weeklyGoals = GoalList.getGoalsFromUserDefault(userKey: weeklyGoalUserKey)
+//        monthlyGoals = GoalList.getGoalsFromUserDefault(userKey: monthlyGoalUserKey)
+//        yearlyGoals = GoalList.getGoalsFromUserDefault(userKey: yearlyGoalUserKey)
+//        onceGoals = GoalList.getGoalsFromUserDefault(userKey: onceGoalUserKey)
     }
-    
+
     
     // save changes to the user defaults
     // single point to save goals
-    public func saveGoals()
+    public func saveAllGoals()
     {
-        let defaults = UserDefaults.standard
-        
-        // persist value
-        let dailyGoalsData = NSKeyedArchiver.archivedData(withRootObject: dailyGoals)
-        defaults.set(dailyGoalsData, forKey: dailyGoalUserKey)
-        
-        let weeklyGoalsData = NSKeyedArchiver.archivedData(withRootObject: weeklyGoals)
-        defaults.set(weeklyGoalsData, forKey: weeklyGoalUserKey)
-        
-        let monthlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: monthlyGoals)
-        defaults.set(monthlyGoalsData, forKey: monthlyGoalUserKey)
-        
-        let yearlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: yearlyGoals)
-        defaults.set(yearlyGoalsData, forKey: yearlyGoalUserKey)
-        
-        let onceGoalsData = NSKeyedArchiver.archivedData(withRootObject: onceGoals)
-        defaults.set(onceGoalsData, forKey: onceGoalUserKey)
-        
-        defaults.synchronize()
+        goalListDao.saveGoals(goalList: .goalList)
+//        let defaults = UserDefaults.standard
+//        
+//        // persist value
+//        let dailyGoalsData = NSKeyedArchiver.archivedData(withRootObject: dailyGoals)
+//        defaults.set(dailyGoalsData, forKey: dailyGoalUserKey)
+//        
+//        let weeklyGoalsData = NSKeyedArchiver.archivedData(withRootObject: weeklyGoals)
+//        defaults.set(weeklyGoalsData, forKey: weeklyGoalUserKey)
+//        
+//        let monthlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: monthlyGoals)
+//        defaults.set(monthlyGoalsData, forKey: monthlyGoalUserKey)
+//        
+//        let yearlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: yearlyGoals)
+//        defaults.set(yearlyGoalsData, forKey: yearlyGoalUserKey)
+//        
+//        let onceGoalsData = NSKeyedArchiver.archivedData(withRootObject: onceGoals)
+//        defaults.set(onceGoalsData, forKey: onceGoalUserKey)
+//        
+//        defaults.synchronize()
     }
     
     
@@ -102,7 +115,7 @@ class GoalList {
         }
         
         // better to raise event but right now just call method for simplicity
-        saveGoals()
+        saveAllGoals()
     }
     
     
@@ -133,7 +146,7 @@ class GoalList {
         }
         
         // better to raise event but right now just call method for simplicity
-        saveGoals()
+        saveAllGoals()
     }
     
     
@@ -164,7 +177,7 @@ class GoalList {
         }
         
         // better to raise event but right now just call method for simplicity
-        saveGoals()
+        saveAllGoals()
     }
     
 
