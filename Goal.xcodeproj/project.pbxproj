@@ -116,11 +116,11 @@
 				C17A14301E7DEA7B006D6B19 /* Info.plist */,
 				C17A14561E7DEC60006D6B19 /* Goal.swift */,
 				C17A14581E7DF00E006D6B19 /* GoalRepository.swift */,
+				C1D269F61ED253DA0079E0D8 /* GoalLIstDao.swift */,
+				C127D6BC1EDB5FC300A6C524 /* GoalService.swift */,
 				C17A145A1E7E5088006D6B19 /* TextFieldCell.xib */,
 				C17A145C1E7E54F6006D6B19 /* TextFieldCell.swift */,
 				C17A145E1E7E5C4E006D6B19 /* RootViewController.swift */,
-				C1D269F61ED253DA0079E0D8 /* GoalLIstDao.swift */,
-				C127D6BC1EDB5FC300A6C524 /* GoalService.swift */,
 			);
 			path = Goal;
 			sourceTree = "<group>";

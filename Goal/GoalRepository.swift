@@ -103,8 +103,8 @@ public class GoalRepository {
         return returnVal
     }
     
-    // add a goal
-    public func addGoal(goal: Goal)
+    // register a new goal
+    public func registerNew(goal: Goal)
     {
         switch goal.type {
         case .Daily:
@@ -123,8 +123,8 @@ public class GoalRepository {
         saveAllGoals()
     }
     
-    // save a goal by name
-    public func saveGoal(goal: Goal)
+    // register an amended goal
+    public func registerAmended(goal: Goal)
     {
         let index = findGoal(goal: goal)
         if (index >= 0)
@@ -151,8 +151,8 @@ public class GoalRepository {
     }
     
     
-    // save goal by index
-    public func saveGoal(index: Int, goal : Goal)
+    // register an amended goal
+    public func registerAmended(index: Int, goal : Goal)
     {
         if (index >= 0)
         {
@@ -177,8 +177,8 @@ public class GoalRepository {
         }
     }
     
-    // delete a goal
-    public func removeGoal(goal:Goal)
+    // register a removed goal
+    public func registerRemoved(goal:Goal)
     {
         let index = findGoal(goal: goal)
         if (index >= 0)
@@ -206,7 +206,7 @@ public class GoalRepository {
     
     
     // move a goal
-    public func moveItem(goalType: GoalType, fromIndex from: Int, toIndex to: Int)
+    public func registerMove(goalType: GoalType, fromIndex from: Int, toIndex to: Int)
     {
         switch goalType {
         case GoalType.Daily :
@@ -236,7 +236,5 @@ public class GoalRepository {
     }
     
 
-
-    
 }
 

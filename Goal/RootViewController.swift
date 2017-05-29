@@ -104,36 +104,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    
-    // always have a blank line so that insert sign will show up
-    private func insertBlank(){
 
-        if(goalService.getGoals(goalType: .Daily).count == 0)
-        {
-            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Daily))
-        }
-        
-        if(goalService.getGoals(goalType: .Weekly).count == 0)
-        {
-            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Weekly))
-        }
-        
-        if(goalService.getGoals(goalType: .Monthly).count == 0)
-        {
-            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Monthly))
-        }
-        
-        if(goalService.getGoals(goalType: .Yearly).count == 0)
-        {
-            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Yearly))
-        }
-        
-        if(goalService.getGoals(goalType: .Once).count == 0 )
-        {
-            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Once))
-        }
-        
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -474,5 +445,37 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // unitily method
+    
+    // always have a blank line so that insert sign will show up
+    private func insertBlank(){
+        
+        if(goalService.getGoals(goalType: .Daily).count == 0)
+        {
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Daily))
+        }
+        
+        if(goalService.getGoals(goalType: .Weekly).count == 0)
+        {
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Weekly))
+        }
+        
+        if(goalService.getGoals(goalType: .Monthly).count == 0)
+        {
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Monthly))
+        }
+        
+        if(goalService.getGoals(goalType: .Yearly).count == 0)
+        {
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Yearly))
+        }
+        
+        if(goalService.getGoals(goalType: .Once).count == 0 )
+        {
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Once))
+        }
+        
+    }
 
 }

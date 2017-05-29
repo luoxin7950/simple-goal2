@@ -22,24 +22,24 @@ public class GoalService{
     
     //methods
     public func addGoal(goal: Goal){
-        goalRespository.addGoal(goal: goal)
+        goalRespository.registerNew(goal: goal)
     }
     
     public func saveGoal(goal: Goal){
-        goalRespository.saveGoal(goal: goal)
+        goalRespository.registerAmended(goal: goal)
     }
     
     public func saveGoal(index: Int, goal: Goal){
-        goalRespository.saveGoal(index: index, goal: goal)
+        goalRespository.registerAmended(index: index, goal: goal)
     }
     
     public func removeGoal(goal: Goal){
-        goalRespository.removeGoal(goal: goal)
+        goalRespository.registerRemoved(goal: goal)
     }
     
     public func moveItem(goalType: GoalType, fromIndex from: Int, toIndex to: Int)
     {
-       goalRespository.moveItem(goalType: goalType, fromIndex: from, toIndex : to)
+       goalRespository.registerMove(goalType: goalType, fromIndex: from, toIndex : to)
     }
     
     public func getGoals(goalType: GoalType) -> [Goal]
