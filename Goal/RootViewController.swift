@@ -14,12 +14,15 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
     private var cellPointSize: CGFloat!
     
     // instance of data model
-    private var goalList: GoalList! // local copy
-    private var dailyGoals : [Goal]! // local copy
-    private var weeklyGoals : [Goal]!
-    private var monthlyGoals : [Goal]!
-    private var yearlyGoals : [Goal]!
-    private var onceGoals: [Goal]!
+    // tmpchg
+    //private var goalList: GoalList! // local copy
+    private var goalService : GoalService!
+    // instance of data model
+    //private var dailyGoals : [Goal]! // local copy
+    //private var weeklyGoals : [Goal]!
+    //private var monthlyGoals : [Goal]!
+    //private var yearlyGoals : [Goal]!
+    //private var onceGoals: [Goal]!
     
     
     // dummy test data for now tmpchg
@@ -71,8 +74,9 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         cellPointSize = preferredTableViewFont.pointSize
         tableView.estimatedRowHeight = cellPointSize
         
-
-        goalList = GoalList.goalList
+        // tmpchg
+        //goalList = GoalList.goalList
+        goalService = GoalService()
         
         // setup test data
         //for goal in dailyGoalsTest
@@ -105,11 +109,18 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         // always add empty goal at the end
         insertBlank()
         
-        dailyGoals = goalList.dailyGoals
-        weeklyGoals = goalList.weeklyGoals
-        monthlyGoals = goalList.monthlyGoals
-        yearlyGoals = goalList.yearlyGoals
-        onceGoals = goalList.onceGoals
+        //tmpchg
+//        dailyGoals = goalList.dailyGoals
+//        weeklyGoals = goalList.weeklyGoals
+//        monthlyGoals = goalList.monthlyGoals
+//        yearlyGoals = goalList.yearlyGoals
+//        onceGoals = goalList.onceGoals
+        
+          //dailyGoals = goalService.getGoals(goalType: .Daily)
+          //weeklyGoals = goalService.getGoals(goalType: .Weekly)
+          //monthlyGoals = goalService.getGoals(goalType: .Monthly)
+          //yearlyGoals = goalService.getGoals(goalType: .Yearly)
+          //onceGoals = goalService.getGoals(goalType: .Once)
         
         
         // Uncomment the following line to preserve selection between presentations
@@ -122,30 +133,56 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
     
     // always have a blank line so that insert sign will show up
     private func insertBlank(){
+        //tmpchg
+//        if(goalList.dailyGoals.count == 0)
+//        {
+//            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Daily))
+//        }
+//        
+//        if(goalList.weeklyGoals.count == 0)
+//        {
+//            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Weekly))
+//        }
+//        
+//        if(goalList.monthlyGoals.count == 0)
+//        {
+//            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Monthly))
+//        }
+//        
+//        if(goalList.yearlyGoals.count == 0)
+//        {
+//            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Yearly))
+//        }
+//        
+//        if(goalList.onceGoals.count == 0 )
+//        {
+//            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Once))
+//        }
         
-        if(goalList.dailyGoals.count == 0)
+        
+        if(goalService.getGoals(goalType: .Daily).count == 0)
         {
-            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Daily))
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Daily))
         }
         
-        if(goalList.weeklyGoals.count == 0)
+        if(goalService.getGoals(goalType: .Weekly).count == 0)
         {
-            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Weekly))
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Weekly))
         }
         
-        if(goalList.monthlyGoals.count == 0)
+        if(goalService.getGoals(goalType: .Monthly).count == 0)
         {
-            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Monthly))
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Monthly))
         }
         
-        if(goalList.yearlyGoals.count == 0)
+        if(goalService.getGoals(goalType: .Yearly).count == 0)
         {
-            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Yearly))
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Yearly))
         }
         
-        if(goalList.onceGoals.count == 0 )
+        if(goalService.getGoals(goalType: .Once).count == 0 )
         {
-            goalList.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Once))
+            goalService.addGoal(goal: Goal(goalName: "", isCompleted: false, type: .Once))
         }
         
     }
@@ -165,15 +202,19 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         // #warning Incomplete implementation, return the number of rows
         switch section {
         case 0:
-            return dailyGoals.count
+            return goalService.getGoals(goalType: .Daily).count
         case 1:
-            return weeklyGoals.count
+            //return weeklyGoals.count
+            return goalService.getGoals(goalType: .Weekly).count
         case 2:
-            return monthlyGoals.count
+            //return monthlyGoals.count
+            return goalService.getGoals(goalType: .Monthly).count
         case 3:
-            return yearlyGoals.count
+            //return yearlyGoals.count
+            return goalService.getGoals(goalType: .Yearly).count
         case 4:
-            return onceGoals.count
+            //return onceGoals.count
+            return goalService.getGoals(goalType: .Once).count
         default:
             return 0
         }
@@ -185,30 +226,33 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellTableIdentifier, for: indexPath) as! TextFieldCell
         
             // Configure the cell...
-            var currentGoal: Goal
+            var currentGoal: Goal?
             switch indexPath.section {
             case 0:
-                currentGoal = dailyGoals[indexPath.row]
+                currentGoal = goalService.getGoals(goalType: .Daily)[indexPath.row]
             case 1:
-                currentGoal = weeklyGoals[indexPath.row]
+                //currentGoal = weeklyGoals[indexPath.row]
+                currentGoal = goalService.getGoals(goalType: .Weekly)[indexPath.row]
             case 2:
-                currentGoal = monthlyGoals[indexPath.row]
+                //currentGoal = monthlyGoals[indexPath.row]
+                currentGoal = goalService.getGoals(goalType: .Monthly)[indexPath.row]
             case 3:
-                currentGoal = yearlyGoals[indexPath.row]
+                //currentGoal = yearlyGoals[indexPath.row]
+                currentGoal = goalService.getGoals(goalType: .Yearly)[indexPath.row]
             case 4:
-                currentGoal = onceGoals[indexPath.row]
+                //currentGoal = onceGoals[indexPath.row]
+                currentGoal = goalService.getGoals(goalType: .Once)[indexPath.row]
             default:
-                currentGoal = Goal(goalName: "Error", isCompleted: false, type: .Yearly)
                 print("cell for row at.. invalid section number")
                 break;
             }
         
         // can we change currentGoal to optional
-        cell.goal = currentGoal.name
+        cell.goal = currentGoal!.name
         cell.goalTextField.delegate = self
         
         //completed goal mark
-        if currentGoal.isCompleted {
+        if currentGoal!.isCompleted {
             cell.goalTextField.textColor = UIColor.lightGray
             cell.accessoryType = .checkmark
         }
@@ -260,23 +304,49 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            // Delete the row from the data
+            // Delete the row from the data model
             switch indexPath.section {
+                // tmpchg
+//            case 0:
+//                goalList.removeGoal(goal: dailyGoals[indexPath.row])
+//                dailyGoals = goalList.dailyGoals
+//            case 1:
+//                goalList.removeGoal(goal: weeklyGoals[indexPath.row])
+//                weeklyGoals = goalList.weeklyGoals
+//            case 2:
+//                goalList.removeGoal(goal: monthlyGoals[indexPath.row])
+//                monthlyGoals = goalList.monthlyGoals
+//            case 3:
+//                goalList.removeGoal(goal: yearlyGoals[indexPath.row])
+//                yearlyGoals = goalList.yearlyGoals
+//            case 4:
+//                goalList.removeGoal(goal: onceGoals[indexPath.row])
+//                onceGoals = goalList.onceGoals
+                
             case 0:
-                goalList.removeGoal(goal: dailyGoals[indexPath.row])
-                dailyGoals = goalList.dailyGoals
+                goalService.removeGoal(goal: goalService.getGoals(goalType: .Daily)[indexPath.row])
+                //tmpchg
+                //dailyGoals = goalService.getGoals(goalType: .Daily)
             case 1:
-                goalList.removeGoal(goal: weeklyGoals[indexPath.row])
-                weeklyGoals = goalList.weeklyGoals
+                let goal = goalService.getGoals(goalType: .Weekly)[indexPath.row]
+                goalService.removeGoal(goal: goal)
+                //goalService.removeGoal(goal: weeklyGoals[indexPath.row])
+                //weeklyGoals = goalService.getGoals(goalType: .Weekly)
             case 2:
-                goalList.removeGoal(goal: monthlyGoals[indexPath.row])
-                monthlyGoals = goalList.monthlyGoals
+                let goal = goalService.getGoals(goalType: .Monthly)[indexPath.row]
+                goalService.removeGoal(goal: goal)
+                //goalService.removeGoal(goal: monthlyGoals[indexPath.row])
+                //monthlyGoals = goalService.getGoals(goalType: .Monthly)
             case 3:
-                goalList.removeGoal(goal: yearlyGoals[indexPath.row])
-                yearlyGoals = goalList.yearlyGoals
+                let goal = goalService.getGoals(goalType: .Yearly)[indexPath.row]
+                goalService.removeGoal(goal: goal)
+                //goalService.removeGoal(goal: yearlyGoals[indexPath.row])
+                //yearlyGoals = goalService.getGoals(goalType: .Yearly)
             case 4:
-                goalList.removeGoal(goal: onceGoals[indexPath.row])
-                onceGoals = goalList.onceGoals
+                let goal = goalService.getGoals(goalType: .Once)[indexPath.row]
+                goalService.removeGoal(goal: goal)
+                //goalService.removeGoal(goal: onceGoals[indexPath.row])
+                //onceGoals = goalService.getGoals(goalType: .Once)
             default:
                 print("deleting goal.. invalid section number")
             }
@@ -292,29 +362,44 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             switch indexPath.section {
             case 0:
                 let goal = Goal(goalName: "", isCompleted: false, type: .Daily)
-                goalList.addGoal(goal: goal)
-                dailyGoals = goalList.dailyGoals
-                count = dailyGoals.count
+                // tmpchg
+                //goalList.addGoal(goal: goal)
+                //dailyGoals = goalList.dailyGoals
+                goalService.addGoal(goal: goal)
+                count = goalService.getGoals(goalType: .Daily).count
             case 1:
                 let goal = Goal(goalName: "", isCompleted: false, type: .Weekly)
-                goalList.addGoal(goal: goal)
-                weeklyGoals = goalList.weeklyGoals
-                count = weeklyGoals.count
+                // tmpchg
+                //goalList.addGoal(goal: goal)
+                goalService.addGoal(goal: goal)
+                //weeklyGoals = goalList.weeklyGoals
+                
+                //count = weeklyGoals.count
+                count = goalService.getGoals(goalType: .Weekly).count
             case 2:
                 let goal = Goal(goalName: "", isCompleted: false, type: .Monthly)
-                goalList.addGoal(goal: goal)
-                monthlyGoals = goalList.monthlyGoals
-                count = monthlyGoals.count
+                // tmpchg
+                //goalList.addGoal(goal: goal)
+                //monthlyGoals = goalList.monthlyGoals
+                goalService.addGoal(goal: goal)
+                //count = monthlyGoals.count
+                count = goalService.getGoals(goalType: .Monthly).count
             case 3:
                 let goal = Goal(goalName: "", isCompleted: false, type: .Yearly)
-                goalList.addGoal(goal: goal)
-                yearlyGoals = goalList.yearlyGoals
-                count = yearlyGoals.count
+                // tmpchg
+                //goalList.addGoal(goal: goal)
+                //yearlyGoals = goalList.yearlyGoals
+                goalService.addGoal(goal: goal)
+                //count = yearlyGoals.count
+                count = goalService.getGoals(goalType: .Yearly).count
             case 4:
                 let goal = Goal(goalName: "", isCompleted: false, type: .Once)
-                goalList.addGoal(goal: goal)
-                onceGoals = goalList.onceGoals
-                count = onceGoals.count
+                // tmpchg
+                //goalList.addGoal(goal: goal)
+                //onceGoals = goalList.onceGoals
+                goalService.addGoal(goal: goal)
+                //count = onceGoals.count
+                count = goalService.getGoals(goalType: .Once).count
             default:
                 print("commit...invalid section number")
             }
@@ -364,15 +449,30 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         switch ip.section {
         case 0:
             // tmpchg working here
-            dailyGoals[ip.row].name = cell.goalTextField.text!
+            //dailyGoals[ip.row].name = cell.goalTextField.text!
+            let goal = goalService.getGoals(goalType: .Daily)[ip.row]
+            goal.name = cell.goalTextField.text!
+            goalService.saveGoal(index: ip.row, goal: goal)
         case 1:
-            weeklyGoals[ip.row].name = cell.goalTextField.text!
+            let goal = goalService.getGoals(goalType: .Weekly)[ip.row]
+            goal.name = cell.goalTextField.text!
+            goalService.saveGoal(index: ip.row, goal: goal)
+            //weeklyGoals[ip.row].name = cell.goalTextField.text!
         case 2:
-            monthlyGoals[ip.row].name = cell.goalTextField.text!
+            let goal = goalService.getGoals(goalType: .Monthly)[ip.row]
+            goal.name = cell.goalTextField.text!
+            goalService.saveGoal(index: ip.row, goal:goal)
+            //monthlyGoals[ip.row].name = cell.goalTextField.text!
         case 3:
-            yearlyGoals[ip.row].name = cell.goalTextField.text!
+            let goal = goalService.getGoals(goalType: .Yearly)[ip.row]
+            goal.name = cell.goalTextField.text!
+            goalService.saveGoal(index: ip.row, goal:goal)
+            //yearlyGoals[ip.row].name = cell.goalTextField.text!
         case 4:
-            onceGoals[ip.row].name = cell.goalTextField.text!
+            let goal = goalService.getGoals(goalType: .Once)[ip.row]
+            goal.name = cell.goalTextField.text!
+            goalService.saveGoal(index: ip.row, goal:goal)
+            //onceGoals[ip.row].name = cell.goalTextField.text!
         default:
             print("textFieldDidEndEditing.. invalid section")
             break
@@ -389,15 +489,28 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             
             switch indexPath.section {
             case 0:
-                self.dailyGoals[indexPath.row].isCompleted = !self.dailyGoals[indexPath.row].isCompleted
+                let goal = self.goalService.getGoals(goalType: .Daily)[indexPath.row]
+                goal.isCompleted = !goal.isCompleted
+                self.goalService.saveGoal(goal: goal)
+                // tmpchg
+                //self.dailyGoals[indexPath.row].isCompleted = !self.dailyGoals[indexPath.row].isCompleted
             case 1:
-                self.weeklyGoals[indexPath.row].isCompleted = !self.weeklyGoals[indexPath.row].isCompleted
+                let goal = self.goalService.getGoals(goalType: .Weekly)[indexPath.row]
+                goal.isCompleted = !goal.isCompleted
+                self.goalService.saveGoal(goal: goal)
+                //self.weeklyGoals[indexPath.row].isCompleted = !self.weeklyGoals[indexPath.row].isCompleted
             case 2:
-                self.monthlyGoals[indexPath.row].isCompleted = !self.monthlyGoals[indexPath.row].isCompleted
+                let goal = self.goalService.getGoals(goalType: .Monthly)[indexPath.row]
+                goal.isCompleted = !goal.isCompleted
+                //self.monthlyGoals[indexPath.row].isCompleted = !self.monthlyGoals[indexPath.row].isCompleted
             case 3:
-                self.yearlyGoals[indexPath.row].isCompleted = !self.yearlyGoals[indexPath.row].isCompleted
+                let goal = self.goalService.getGoals(goalType: .Yearly)[indexPath.row]
+                goal.isCompleted = !goal.isCompleted
+                //self.yearlyGoals[indexPath.row].isCompleted = !self.yearlyGoals[indexPath.row].isCompleted
             case 4:
-                self.onceGoals[indexPath.row].isCompleted = !self.onceGoals[indexPath.row].isCompleted
+                let goal = self.goalService.getGoals(goalType: .Once)[indexPath.row]
+                goal.isCompleted = !goal.isCompleted
+                //self.onceGoals[indexPath.row].isCompleted = !self.onceGoals[indexPath.row].isCompleted
             default:
                 print("invalid section")
                 break
@@ -409,7 +522,9 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             // tell the table view it's done editing
             tableView.isEditing = false
             
-            self.goalList.saveAllGoals()
+            // tmpchg
+            //self.goalList.saveAllGoals()
+            self.goalService.saveAllGoals()
         })
         
         let deleteAction = UITableViewRowAction(style: .default, title:"Delete")
@@ -443,25 +558,32 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         switch sourceIndexPath.section {
         case 0:
-            goalList.moveItem(goalType: .Daily, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
-            dailyGoals = goalList.dailyGoals
+            //tmpchg
+//            goalList.moveItem(goalType: .Daily, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
+//            dailyGoals = goalList.dailyGoals
+            goalService.moveItem(goalType: .Daily, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
         case 1:
-            goalList.moveItem(goalType: .Weekly, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
-            weeklyGoals = goalList.weeklyGoals
+//            goalList.moveItem(goalType: .Weekly, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
+//            weeklyGoals = goalList.weeklyGoals
+            goalService.moveItem(goalType: .Weekly, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
         case 2:
-            goalList.moveItem(goalType: .Monthly, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
-            monthlyGoals = goalList.monthlyGoals
+//            goalList.moveItem(goalType: .Monthly, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
+//            monthlyGoals = goalList.monthlyGoals
+            goalService.moveItem(goalType: .Monthly, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
         case 3:
-            goalList.moveItem(goalType: .Yearly, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
-            yearlyGoals = goalList.yearlyGoals
+//            goalList.moveItem(goalType: .Yearly, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
+//            yearlyGoals = goalList.yearlyGoals
+            goalService.moveItem(goalType: .Yearly, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
         case 4:
-            goalList.moveItem(goalType: .Once, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
-            onceGoals = goalList.onceGoals
+//            goalList.moveItem(goalType: .Once, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
+//            onceGoals = goalList.onceGoals
+            goalService.moveItem(goalType: .Once, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
         default:
             break
         }
         
-        goalList.saveAllGoals()
+        //goalList.saveAllGoals()
+        goalService.saveAllGoals()
     }
     
  

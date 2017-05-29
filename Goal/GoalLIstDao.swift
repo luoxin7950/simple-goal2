@@ -31,12 +31,6 @@ class GoalListDao
         return returnVal
     }
     
-    public func saveGoal(goal: Goal)
-    {
-        
-        
-        
-    }
     
     public func saveGoals(goalList : GoalList)
     {

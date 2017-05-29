@@ -9,17 +9,20 @@
 import Foundation
 
 // set as ini so it can be converted to int when storing in the user perference
-enum GoalType : Int {case Daily = 1, Weekly, Monthly, Yearly, Once}
+public enum GoalType : Int {case Daily = 1, Weekly, Monthly, Yearly, Once}
 
 
 // implement NSCoding so that it can be stored in User Perference
-class Goal : NSObject, NSCoding{
+// plain old swift object.
+// bom
+public class Goal : NSObject, NSCoding{
 
     var name : String = ""
     var isCompleted : Bool
     var type : GoalType
     
     // todo add sequence
+    // todo add GUID
     
 
     init(goalName name: String, isCompleted : Bool, type : GoalType)
@@ -31,7 +34,7 @@ class Goal : NSObject, NSCoding{
     
 
     //implement NSCoding
-    func encode(with aCoder:NSCoder){
+    public func encode(with aCoder:NSCoder){
         aCoder.encode(name, forKey:"name")
         aCoder.encode(isCompleted, forKey:"isCompleted")
         
@@ -40,7 +43,7 @@ class Goal : NSObject, NSCoding{
     }
     
     //implementing NSCoding
-    required init? (coder aDecoder: NSCoder)
+    public required init? (coder aDecoder: NSCoder)
     {
         self.name = aDecoder.decodeObject(forKey: "name") as! String
         self.isCompleted = aDecoder.decodeBool(forKey: "isCompleted")

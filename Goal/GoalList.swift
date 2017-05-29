@@ -9,11 +9,12 @@
 import Foundation
 import UIKit
 
-// data model
-class GoalList {
+// unit of work
+// repository
+public class GoalList {
     
     // singleton
-    static let goalList = GoalList()
+    //static let goalList = GoalList()
 
     private var goalListDao : GoalListDao
     
@@ -30,26 +31,6 @@ class GoalList {
     private(set) var yearlyGoals : [Goal]
     private(set) var onceGoals : [Goal]
 
-// tmpchg create GoalListDao
-//    static public func getGoalsFromUserDefault(userKey : String) -> [Goal]
-//    {
-//        let returnVal: [Goal]
-//        let defaults = UserDefaults.standard
-//        
-//        let nullableStoredGoals = defaults.object(forKey: userKey) as? Data
-//
-//        if let storedGoals = nullableStoredGoals{
-//            // there is some goals stored. now unarchive them
-//            returnVal = NSKeyedUnarchiver.unarchiveObject(with: storedGoals) as! [Goal]
-//        }
-//        else{
-//             //no goal is stored
-//            returnVal = [Goal]()
-//        }
-//        
-//        return returnVal
-//    }
-
     init()
     {
         //tmpchg testing clear user defaults
@@ -63,11 +44,6 @@ class GoalList {
         yearlyGoals = goalListDao.getGoals(userKey: yearlyGoalUserKey)
         onceGoals = goalListDao.getGoals(userKey: onceGoalUserKey)
         
-//        dailyGoals = GoalList.getGoalsFromUserDefault(userKey: dailyGoalUserKey)
-//        weeklyGoals = GoalList.getGoalsFromUserDefault(userKey: weeklyGoalUserKey)
-//        monthlyGoals = GoalList.getGoalsFromUserDefault(userKey: monthlyGoalUserKey)
-//        yearlyGoals = GoalList.getGoalsFromUserDefault(userKey: yearlyGoalUserKey)
-//        onceGoals = GoalList.getGoalsFromUserDefault(userKey: onceGoalUserKey)
     }
 
     
@@ -75,28 +51,60 @@ class GoalList {
     // single point to save goals
     public func saveAllGoals()
     {
-        goalListDao.saveGoals(goalList: .goalList)
-//        let defaults = UserDefaults.standard
-//        
-//        // persist value
-//        let dailyGoalsData = NSKeyedArchiver.archivedData(withRootObject: dailyGoals)
-//        defaults.set(dailyGoalsData, forKey: dailyGoalUserKey)
-//        
-//        let weeklyGoalsData = NSKeyedArchiver.archivedData(withRootObject: weeklyGoals)
-//        defaults.set(weeklyGoalsData, forKey: weeklyGoalUserKey)
-//        
-//        let monthlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: monthlyGoals)
-//        defaults.set(monthlyGoalsData, forKey: monthlyGoalUserKey)
-//        
-//        let yearlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: yearlyGoals)
-//        defaults.set(yearlyGoalsData, forKey: yearlyGoalUserKey)
-//        
-//        let onceGoalsData = NSKeyedArchiver.archivedData(withRootObject: onceGoals)
-//        defaults.set(onceGoalsData, forKey: onceGoalUserKey)
-//        
-//        defaults.synchronize()
+        goalListDao.saveGoals(goalList: self)
     }
     
+    // get certain type of goals
+    public func getGoals(goalType: GoalType) -> [Goal]
+    {
+        var returnGoals = [Goal]()
+    
+        switch goalType {
+        case .Daily:
+            returnGoals = dailyGoals
+        case .Weekly:
+            returnGoals = weeklyGoals
+        case .Monthly:
+            returnGoals = monthlyGoals
+        case .Yearly:
+            returnGoals = yearlyGoals
+        case .Once:
+            returnGoals = onceGoals
+        }
+    
+        return returnGoals
+    }
+    
+    // find a goal
+    public func findGoal(goal: Goal) -> Int
+    {
+        var returnVal = -1
+        
+        switch goal.type {
+        case .Daily:
+            if let index = dailyGoals.index(where: {$0.name == goal.name}) {
+                returnVal = index
+            }
+        case .Weekly:
+            if let index = weeklyGoals.index(where: {$0.name == goal.name}) {
+                returnVal = index
+            }
+        case .Monthly:
+            if let index = monthlyGoals.index(where: {$0.name == goal.name}) {
+                returnVal = index
+            }
+        case .Yearly:
+            if let index = yearlyGoals.index(where: {$0.name == goal.name}){
+                returnVal = index
+            }
+        case .Once:
+            if let index = onceGoals.index(where : {$0.name == goal.name}){
+                returnVal = index
+            }
+        }
+
+        return returnVal
+    }
     
     // add a goal
     public func addGoal(goal: Goal)
@@ -114,39 +122,89 @@ class GoalList {
             onceGoals.append(goal)
         }
         
-        // better to raise event but right now just call method for simplicity
+        // tmpchg save to call dao
         saveAllGoals()
     }
     
+    // save a goal by name
+    public func saveGoal(goal: Goal)
+    {
+        let index = findGoal(goal: goal)
+        if (index >= 0)
+        {
+            switch goal.type {
+            case .Daily:
+                dailyGoals[index] = goal
+            case .Weekly:
+                weeklyGoals[index] = goal
+            case .Monthly:
+                monthlyGoals[index] = goal
+            case .Yearly:
+                yearlyGoals[index] = goal
+            case .Once:
+                onceGoals[index] = goal
+            }
+            
+            saveAllGoals()
+        }
+        else
+        {
+            // todo throw error here
+        }
+    }
+    
+    
+    // save goal by index
+    public func saveGoal(index: Int, goal : Goal)
+    {
+        if (index >= 0)
+        {
+            switch goal.type {
+            case .Daily:
+                dailyGoals[index] = goal
+            case .Weekly:
+                weeklyGoals[index] = goal
+            case .Monthly:
+                monthlyGoals[index] = goal
+            case .Yearly:
+                yearlyGoals[index] = goal
+            case .Once:
+                onceGoals[index] = goal
+            }
+            
+            saveAllGoals()
+        }
+        else
+        {
+            // todo throw error here
+        }
+    }
     
     // delete a goal
     public func removeGoal(goal:Goal)
     {
-        switch goal.type {
-        case .Daily:
-            if let index = dailyGoals.index(where: {$0.name == goal.name}) {
+        let index = findGoal(goal: goal)
+        if (index >= 0)
+        {
+            switch goal.type {
+            case .Daily:
                 dailyGoals.remove(at: index)
-            }
-        case .Weekly:
-            if let index = weeklyGoals.index(where: {$0.name == goal.name}) {
+            case .Weekly:
                 weeklyGoals.remove(at: index)
-            }
-        case .Monthly:
-            if let index = monthlyGoals.index(where: {$0.name == goal.name}) {
+            case .Monthly:
                 monthlyGoals.remove(at: index)
-            }
-        case .Yearly:
-            if let index = yearlyGoals.index(where: {$0.name == goal.name}){
+            case .Yearly:
                 yearlyGoals.remove(at: index)
-            }
-        case .Once:
-            if let index = onceGoals.index(where : {$0.name == goal.name}){
+            case .Once:
                 onceGoals.remove(at: index)
             }
-        }
         
         // better to raise event but right now just call method for simplicity
-        saveAllGoals()
+            saveAllGoals()
+        }
+        else{
+            // todo throw error here
+        }
     }
     
     
