@@ -15,7 +15,7 @@
 		C17A143A1E7DEA7B006D6B19 /* GoalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17A14391E7DEA7B006D6B19 /* GoalTests.swift */; };
 		C17A14451E7DEA7B006D6B19 /* GoalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17A14441E7DEA7B006D6B19 /* GoalUITests.swift */; };
 		C17A14571E7DEC60006D6B19 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17A14561E7DEC60006D6B19 /* Goal.swift */; };
-		C17A14591E7DF00E006D6B19 /* GoalList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17A14581E7DF00E006D6B19 /* GoalList.swift */; };
+		C17A14591E7DF00E006D6B19 /* GoalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17A14581E7DF00E006D6B19 /* GoalRepository.swift */; };
 		C17A145B1E7E5088006D6B19 /* TextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C17A145A1E7E5088006D6B19 /* TextFieldCell.xib */; };
 		C17A145D1E7E54F6006D6B19 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17A145C1E7E54F6006D6B19 /* TextFieldCell.swift */; };
 		C17A145F1E7E5C4E006D6B19 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17A145E1E7E5C4E006D6B19 /* RootViewController.swift */; };
@@ -54,7 +54,7 @@
 		C17A14441E7DEA7B006D6B19 /* GoalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalUITests.swift; sourceTree = "<group>"; };
 		C17A14461E7DEA7B006D6B19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C17A14561E7DEC60006D6B19 /* Goal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
-		C17A14581E7DF00E006D6B19 /* GoalList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalList.swift; sourceTree = "<group>"; };
+		C17A14581E7DF00E006D6B19 /* GoalRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalRepository.swift; sourceTree = "<group>"; };
 		C17A145A1E7E5088006D6B19 /* TextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldCell.xib; sourceTree = "<group>"; };
 		C17A145C1E7E54F6006D6B19 /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		C17A145E1E7E5C4E006D6B19 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 				C17A142D1E7DEA7B006D6B19 /* LaunchScreen.storyboard */,
 				C17A14301E7DEA7B006D6B19 /* Info.plist */,
 				C17A14561E7DEC60006D6B19 /* Goal.swift */,
-				C17A14581E7DF00E006D6B19 /* GoalList.swift */,
+				C17A14581E7DF00E006D6B19 /* GoalRepository.swift */,
 				C17A145A1E7E5088006D6B19 /* TextFieldCell.xib */,
 				C17A145C1E7E54F6006D6B19 /* TextFieldCell.swift */,
 				C17A145E1E7E5C4E006D6B19 /* RootViewController.swift */,
@@ -282,7 +282,7 @@
 				C17A145F1E7E5C4E006D6B19 /* RootViewController.swift in Sources */,
 				C1D269F71ED253DA0079E0D8 /* GoalLIstDao.swift in Sources */,
 				C17A145D1E7E54F6006D6B19 /* TextFieldCell.swift in Sources */,
-				C17A14591E7DF00E006D6B19 /* GoalList.swift in Sources */,
+				C17A14591E7DF00E006D6B19 /* GoalRepository.swift in Sources */,
 				C17A14571E7DEC60006D6B19 /* Goal.swift in Sources */,
 				C17A14251E7DEA7B006D6B19 /* AppDelegate.swift in Sources */,
 				C127D6BD1EDB5FC300A6C524 /* GoalService.swift in Sources */,

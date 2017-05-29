@@ -12,12 +12,12 @@ import Foundation
 public class GoalService{
 
     //fields
-    private var goalRespository: GoalList;
+    private var goalRespository: GoalRepository;
     //properties
     
     //ctor
     init(){
-        goalRespository = GoalList()
+        goalRespository = GoalRepository()
     }
     
     //methods

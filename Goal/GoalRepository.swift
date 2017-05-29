@@ -11,10 +11,7 @@ import UIKit
 
 // unit of work
 // repository
-public class GoalList {
-    
-    // singleton
-    //static let goalList = GoalList()
+public class GoalRepository {
 
     private var goalListDao : GoalListDao
     
@@ -51,7 +48,7 @@ public class GoalList {
     // single point to save goals
     public func saveAllGoals()
     {
-        goalListDao.saveGoals(goalList: self)
+        goalListDao.saveGoals(goalRepository: self)
     }
     
     // get certain type of goals

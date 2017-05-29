@@ -11,7 +11,6 @@ import Foundation
 class GoalListDao
 {
     
-    
     public func getGoals(userKey : String) -> [Goal]
     {
         let returnVal: [Goal]
@@ -32,25 +31,25 @@ class GoalListDao
     }
     
     
-    public func saveGoals(goalList : GoalList)
+    public func saveGoals(goalRepository: GoalRepository)
     {
         let defaults = UserDefaults.standard
         
         // persist value
-        let dailyGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalList.dailyGoals)
-        defaults.set(dailyGoalsData, forKey: goalList.dailyGoalUserKey)
+        let dailyGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalRepository.dailyGoals)
+        defaults.set(dailyGoalsData, forKey: goalRepository.dailyGoalUserKey)
         
-        let weeklyGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalList.weeklyGoals)
-        defaults.set(weeklyGoalsData, forKey: goalList.weeklyGoalUserKey)
+        let weeklyGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalRepository.weeklyGoals)
+        defaults.set(weeklyGoalsData, forKey: goalRepository.weeklyGoalUserKey)
         
-        let monthlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalList.monthlyGoals)
-        defaults.set(monthlyGoalsData, forKey: goalList.monthlyGoalUserKey)
+        let monthlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalRepository.monthlyGoals)
+        defaults.set(monthlyGoalsData, forKey: goalRepository.monthlyGoalUserKey)
         
-        let yearlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalList.yearlyGoals)
-        defaults.set(yearlyGoalsData, forKey: goalList.yearlyGoalUserKey)
+        let yearlyGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalRepository.yearlyGoals)
+        defaults.set(yearlyGoalsData, forKey: goalRepository.yearlyGoalUserKey)
         
-        let onceGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalList.onceGoals)
-        defaults.set(onceGoalsData, forKey: goalList.onceGoalUserKey)
+        let onceGoalsData = NSKeyedArchiver.archivedData(withRootObject: goalRepository.onceGoals)
+        defaults.set(onceGoalsData, forKey: goalRepository.onceGoalUserKey)
         
         defaults.synchronize()
     }
