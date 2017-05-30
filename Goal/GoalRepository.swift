@@ -205,7 +205,7 @@ public class GoalRepository {
     }
     
     
-    // move a goal
+    // register a move goal
     public func registerMove(goalType: GoalType, fromIndex from: Int, toIndex to: Int)
     {
         switch goalType {

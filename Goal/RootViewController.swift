@@ -117,8 +117,9 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         return 5
     }
 
+    // return the number of rows
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+
         switch section {
         case 0:
             return goalService.getGoals(goalType: .Daily).count
@@ -154,7 +155,6 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             case 4:
                 currentGoal = goalService.getGoals(goalType: .Once)[indexPath.row]
             default:
-                print("cell for row at.. invalid section number")
                 break;
             }
         
@@ -190,7 +190,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         case 3:
             return "Yearly Goals"
         case 4:
-            return "Once Goals"
+            return "Life Goals"
         default:
             return ""
         }
@@ -298,6 +298,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         return false
     }
 
+    // when is this triggered? the textfield lost focus? i am sure it occurs when the DONE button is clicked
     func textFieldDidEndEditing(_ textField: UITextField) {
         // some cell's text field has finished editing; which cell?
         var v : UIView = textField
@@ -328,7 +329,6 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             goal.name = cell.goalTextField.text!
             goalService.saveGoal(index: ip.row, goal:goal)
         default:
-            print("textFieldDidEndEditing.. invalid section")
             break
         }
     }
@@ -337,6 +337,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let completeAction = UITableViewRowAction(style: .default, title: "Complete", handler:
         {
+            // begin of handler
             action, indexPath in
             
             switch indexPath.section {
@@ -351,14 +352,16 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             case 2:
                 let goal = self.goalService.getGoals(goalType: .Monthly)[indexPath.row]
                 goal.isCompleted = !goal.isCompleted
+                self.goalService.saveGoal(goal: goal)
             case 3:
                 let goal = self.goalService.getGoals(goalType: .Yearly)[indexPath.row]
                 goal.isCompleted = !goal.isCompleted
+                self.goalService.saveGoal(goal: goal)
             case 4:
                 let goal = self.goalService.getGoals(goalType: .Once)[indexPath.row]
                 goal.isCompleted = !goal.isCompleted
+                self.goalService.saveGoal(goal: goal)
             default:
-                print("invalid section")
                 break
             }
             
@@ -368,7 +371,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             // tell the table view it's done editing
             tableView.isEditing = false
 
-            self.goalService.saveAllGoals()
+            // end of handler
         })
         
         let deleteAction = UITableViewRowAction(style: .default, title:"Delete")
@@ -387,6 +390,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         //return true
     //}
     
+    // rearrange rows?
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         // take this opportunity to dismiss the keyboard if it is showing
         tableView.endEditing(true)
@@ -414,8 +418,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         default:
             break
         }
-        
-        goalService.saveAllGoals()
+
     }
     
  
