@@ -96,7 +96,6 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         // always add empty goal at the end
         insertBlank()
         
-        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -217,7 +216,8 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             // Delete the row from the data model
             switch indexPath.section {
             case 0:
-                goalService.removeGoal(goal: goalService.getGoals(goalType: .Daily)[indexPath.row])
+                let goal = goalService.getGoals(goalType: .Daily)[indexPath.row]
+                goalService.removeGoal(goal: goal)
             case 1:
                 let goal = goalService.getGoals(goalType: .Weekly)[indexPath.row]
                 goalService.removeGoal(goal: goal)
@@ -231,7 +231,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
                 let goal = goalService.getGoals(goalType: .Once)[indexPath.row]
                 goalService.removeGoal(goal: goal)
             default:
-                print("deleting goal.. invalid section number")
+                break
             }
             
             tableView.beginUpdates()
@@ -266,21 +266,28 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
             default:
                 print("commit...invalid section number")
             }
+
             tableView.beginUpdates()
             tableView.insertRows(at: [IndexPath(row:count-1, section:indexPath.section)],
                                  with:.automatic)
-            tableView.reloadRows(at: [IndexPath(row:count-2, section:indexPath.section)],
-                                 with:.automatic)
-            tableView.endUpdates()
+            //tmpchg don't know why reload cause wierd behavior
+            //tableView.reloadRows(at: [IndexPath(row:count-2, section:indexPath.section)],
+            //                     with:.automatic)
+            tableView.endUpdates() // triggers editingStyleForRowAt and textFieldDidEnding for current row
+            
             // crucial that this next bit be *outside* the updates block
-            let cell = self.tableView.cellForRow(
-                at: IndexPath(row:count-1, section:indexPath.section))
-            (cell as! TextFieldCell).goalTextField.becomeFirstResponder()
+            let newCell = self.tableView.cellForRow(
+                at: IndexPath(row:count-1, section:indexPath.section)) as! TextFieldCell
+            // tmpchg
+            // newCell.goal = ""
+            newCell.goalTextField.becomeFirstResponder() // trigger the testFieldDidEndEditing event handler below
             
         }    
     }
     
     /* MARK editable Content in Cells */
+    // edit button click handler
+    // click on the insert icon
     override func tableView(_ tableView: UITableView,
                             editingStyleForRowAt indexPath: IndexPath)
         -> UITableViewCellEditingStyle {
@@ -299,6 +306,8 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
     }
 
     // when is this triggered? the textfield lost focus? i am sure it occurs when the DONE button is clicked
+    // done button click handler
+    // whent he insert icon is clicked
     func textFieldDidEndEditing(_ textField: UITextField) {
         // some cell's text field has finished editing; which cell?
         var v : UIView = textField
@@ -396,6 +405,7 @@ class RootViewController: UITableViewController, UITextFieldDelegate {
         tableView.endEditing(true)
         if proposedDestinationIndexPath.section != sourceIndexPath.section
         {
+            // prevent cross section rearrangement
             return IndexPath(row: sourceIndexPath.row, section: sourceIndexPath.section)
         }
         else{
